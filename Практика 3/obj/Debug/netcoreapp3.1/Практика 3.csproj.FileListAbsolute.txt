@@ -1,0 +1,14 @@
+C:\Users\220887\source\repos\KirillTheARCHIK\sstu-Csharp\Практика 3\bin\Debug\netcoreapp3.1\Практика 3.exe
+C:\Users\220887\source\repos\KirillTheARCHIK\sstu-Csharp\Практика 3\bin\Debug\netcoreapp3.1\Практика 3.deps.json
+C:\Users\220887\source\repos\KirillTheARCHIK\sstu-Csharp\Практика 3\bin\Debug\netcoreapp3.1\Практика 3.runtimeconfig.json
+C:\Users\220887\source\repos\KirillTheARCHIK\sstu-Csharp\Практика 3\bin\Debug\netcoreapp3.1\Практика 3.runtimeconfig.dev.json
+C:\Users\220887\source\repos\KirillTheARCHIK\sstu-Csharp\Практика 3\bin\Debug\netcoreapp3.1\Практика 3.dll
+C:\Users\220887\source\repos\KirillTheARCHIK\sstu-Csharp\Практика 3\bin\Debug\netcoreapp3.1\Практика 3.pdb
+C:\Users\220887\source\repos\KirillTheARCHIK\sstu-Csharp\Практика 3\obj\Debug\netcoreapp3.1\Практика 3.csproj.AssemblyReference.cache
+C:\Users\220887\source\repos\KirillTheARCHIK\sstu-Csharp\Практика 3\obj\Debug\netcoreapp3.1\Практика 3.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\220887\source\repos\KirillTheARCHIK\sstu-Csharp\Практика 3\obj\Debug\netcoreapp3.1\Практика 3.AssemblyInfoInputs.cache
+C:\Users\220887\source\repos\KirillTheARCHIK\sstu-Csharp\Практика 3\obj\Debug\netcoreapp3.1\Практика 3.AssemblyInfo.cs
+C:\Users\220887\source\repos\KirillTheARCHIK\sstu-Csharp\Практика 3\obj\Debug\netcoreapp3.1\Практика 3.csproj.CoreCompileInputs.cache
+C:\Users\220887\source\repos\KirillTheARCHIK\sstu-Csharp\Практика 3\obj\Debug\netcoreapp3.1\Практика 3.dll
+C:\Users\220887\source\repos\KirillTheARCHIK\sstu-Csharp\Практика 3\obj\Debug\netcoreapp3.1\Практика 3.pdb
+C:\Users\220887\source\repos\KirillTheARCHIK\sstu-Csharp\Практика 3\obj\Debug\netcoreapp3.1\Практика 3.genruntimeconfig.cache
