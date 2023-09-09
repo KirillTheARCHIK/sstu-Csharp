@@ -1,0 +1,14 @@
+Z:\C# 3 семестр\Практика 1\Практика 1\bin\Debug\netcoreapp3.1\Практика 1.exe
+Z:\C# 3 семестр\Практика 1\Практика 1\bin\Debug\netcoreapp3.1\Практика 1.deps.json
+Z:\C# 3 семестр\Практика 1\Практика 1\bin\Debug\netcoreapp3.1\Практика 1.runtimeconfig.json
+Z:\C# 3 семестр\Практика 1\Практика 1\bin\Debug\netcoreapp3.1\Практика 1.runtimeconfig.dev.json
+Z:\C# 3 семестр\Практика 1\Практика 1\bin\Debug\netcoreapp3.1\Практика 1.dll
+Z:\C# 3 семестр\Практика 1\Практика 1\bin\Debug\netcoreapp3.1\Практика 1.pdb
+Z:\C# 3 семестр\Практика 1\Практика 1\obj\Debug\netcoreapp3.1\Практика 1.csproj.AssemblyReference.cache
+Z:\C# 3 семестр\Практика 1\Практика 1\obj\Debug\netcoreapp3.1\Практика 1.GeneratedMSBuildEditorConfig.editorconfig
+Z:\C# 3 семестр\Практика 1\Практика 1\obj\Debug\netcoreapp3.1\Практика 1.AssemblyInfoInputs.cache
+Z:\C# 3 семестр\Практика 1\Практика 1\obj\Debug\netcoreapp3.1\Практика 1.AssemblyInfo.cs
+Z:\C# 3 семестр\Практика 1\Практика 1\obj\Debug\netcoreapp3.1\Практика 1.csproj.CoreCompileInputs.cache
+Z:\C# 3 семестр\Практика 1\Практика 1\obj\Debug\netcoreapp3.1\Практика 1.dll
+Z:\C# 3 семестр\Практика 1\Практика 1\obj\Debug\netcoreapp3.1\Практика 1.pdb
+Z:\C# 3 семестр\Практика 1\Практика 1\obj\Debug\netcoreapp3.1\Практика 1.genruntimeconfig.cache
