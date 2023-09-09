@@ -1,0 +1,14 @@
+C:\Users\220887\source\repos\KirillTheARCHIK\sstu-Csharp\Практика 2\obj\Debug\netcoreapp3.1\Практика 2.csproj.AssemblyReference.cache
+C:\Users\220887\source\repos\KirillTheARCHIK\sstu-Csharp\Практика 2\obj\Debug\netcoreapp3.1\Практика 2.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\220887\source\repos\KirillTheARCHIK\sstu-Csharp\Практика 2\obj\Debug\netcoreapp3.1\Практика 2.AssemblyInfoInputs.cache
+C:\Users\220887\source\repos\KirillTheARCHIK\sstu-Csharp\Практика 2\obj\Debug\netcoreapp3.1\Практика 2.AssemblyInfo.cs
+C:\Users\220887\source\repos\KirillTheARCHIK\sstu-Csharp\Практика 2\obj\Debug\netcoreapp3.1\Практика 2.csproj.CoreCompileInputs.cache
+C:\Users\220887\source\repos\KirillTheARCHIK\sstu-Csharp\Практика 2\bin\Debug\netcoreapp3.1\Практика 2.exe
+C:\Users\220887\source\repos\KirillTheARCHIK\sstu-Csharp\Практика 2\bin\Debug\netcoreapp3.1\Практика 2.deps.json
+C:\Users\220887\source\repos\KirillTheARCHIK\sstu-Csharp\Практика 2\bin\Debug\netcoreapp3.1\Практика 2.runtimeconfig.json
+C:\Users\220887\source\repos\KirillTheARCHIK\sstu-Csharp\Практика 2\bin\Debug\netcoreapp3.1\Практика 2.runtimeconfig.dev.json
+C:\Users\220887\source\repos\KirillTheARCHIK\sstu-Csharp\Практика 2\bin\Debug\netcoreapp3.1\Практика 2.dll
+C:\Users\220887\source\repos\KirillTheARCHIK\sstu-Csharp\Практика 2\bin\Debug\netcoreapp3.1\Практика 2.pdb
+C:\Users\220887\source\repos\KirillTheARCHIK\sstu-Csharp\Практика 2\obj\Debug\netcoreapp3.1\Практика 2.dll
+C:\Users\220887\source\repos\KirillTheARCHIK\sstu-Csharp\Практика 2\obj\Debug\netcoreapp3.1\Практика 2.pdb
+C:\Users\220887\source\repos\KirillTheARCHIK\sstu-Csharp\Практика 2\obj\Debug\netcoreapp3.1\Практика 2.genruntimeconfig.cache
