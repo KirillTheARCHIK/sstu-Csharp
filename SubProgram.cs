@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Практики
 {
-    internal class Listeners : Dictionary<string, Action<Command>> { }
+    internal class Listeners : Dictionary<string, Action<Command, History>> { }
     internal class SubProgram
     {
         string name;
@@ -40,7 +40,7 @@ namespace Практики
                     var findedSubProgram = Enumerable.Reverse(history).FirstOrDefault((subProgram) => subProgram.listeners.ContainsKey(command.Action));
                     if (findedSubProgram != null)
                     {
-                        findedSubProgram.listeners[command.Action](command);
+                        findedSubProgram.listeners[command.Action](command, history);
                         continue;
                     }
 
