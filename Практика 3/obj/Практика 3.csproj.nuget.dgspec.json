@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\220887\\source\\repos\\KirillTheARCHIK\\sstu-Csharp\\Практика 3\\Практика 3.csproj": {}
+    "C:\\Users\\220887\\Source\\Repos\\KirillTheARCHIK\\sstu-Csharp\\Практика 3\\Практика 3.csproj": {}
   },
   "projects": {
-    "C:\\Users\\220887\\source\\repos\\KirillTheARCHIK\\sstu-Csharp\\Практика 3\\Практика 3.csproj": {
+    "C:\\Users\\220887\\Source\\Repos\\KirillTheARCHIK\\sstu-Csharp\\Практика 3\\Практика 3.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\220887\\source\\repos\\KirillTheARCHIK\\sstu-Csharp\\Практика 3\\Практика 3.csproj",
+        "projectUniqueName": "C:\\Users\\220887\\Source\\Repos\\KirillTheARCHIK\\sstu-Csharp\\Практика 3\\Практика 3.csproj",
         "projectName": "Практика 3",
-        "projectPath": "C:\\Users\\220887\\source\\repos\\KirillTheARCHIK\\sstu-Csharp\\Практика 3\\Практика 3.csproj",
+        "projectPath": "C:\\Users\\220887\\Source\\Repos\\KirillTheARCHIK\\sstu-Csharp\\Практика 3\\Практика 3.csproj",
         "packagesPath": "C:\\Users\\220887\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\220887\\source\\repos\\KirillTheARCHIK\\sstu-Csharp\\Практика 3\\obj\\",
+        "outputPath": "C:\\Users\\220887\\Source\\Repos\\KirillTheARCHIK\\sstu-Csharp\\Практика 3\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\220887\\AppData\\Roaming\\NuGet\\NuGet.Config",
