@@ -17,6 +17,11 @@ namespace Практики
 
         public Command(string source)
         {
+            if (source.StartsWith('-'))
+            {
+                source = " " + source;
+            }
+
             var splitted = source.Split(' ');
             action = splitted[0];
             arguments = new List<string>();

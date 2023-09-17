@@ -13,6 +13,7 @@ namespace Практики
         Listeners listeners;
 
         public string Name { get { return name; } }
+        public Listeners Listeners { get { return listeners; } }
 
         public SubProgram(string name, History history, Listeners listeners)
         {
