@@ -17,7 +17,7 @@ namespace Практики
 
         public Command(string source)
         {
-            if (source.StartsWith('-'))
+            if (source.StartsWith("-"))
             {
                 source = " " + source;
             }
@@ -28,7 +28,7 @@ namespace Практики
             modificators = new List<string>();
             foreach (var str in splitted.Skip(1))
             {
-                if (str.StartsWith('-'))
+                if (str.StartsWith("-"))
                 {
                     modificators.Add(str);
                     break;

@@ -9,18 +9,18 @@ namespace Практики
     {
         public OS() : base("~", new History() { }, new Listeners()
         {
-            [""] = delegate (Command command, History history)
+            [""] = delegate (Command command, History hist)
             {
                 if (command.Modificators.Contains("-h"))
                 {
                     Console.WriteLine("Список комманд:");
-                    foreach (var item in history.Last().Listeners.Keys.Where(key => key != ""))
+                    foreach (var item in hist.Last().Listeners.Keys.Where(key => key != ""))
                     {
                         Console.WriteLine(item);
                     }
                 }
             },
-            ["run"] = delegate (Command command, History history)
+            ["run"] = delegate (Command command, History hist)
             {
                 if (command.Modificators.Contains("-h"))
                 {
@@ -28,7 +28,7 @@ namespace Практики
                     Console.WriteLine("run -l - список программ");
                     return;
                 }
-                var programList = getProgramList(history);
+                var programList = getProgramList(hist);
                 if (command.Modificators.Contains("-l"))
                 {
                     Console.WriteLine("Список программ:");
@@ -55,6 +55,7 @@ namespace Практики
             return new List<SubProgram>
             {
                new Practice6(history),
+               new Discrete1(history),
             };
         }
     }
