@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Programs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -56,6 +57,7 @@ namespace Практики
             {
                new Practice6(history),
                new Discrete1(history),
+               new Discrete2(history),
             };
         }
     }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Utils;
 
 namespace Практики
 {
@@ -51,6 +52,8 @@ namespace Практики
 2) Объединение
 3) Разность
 4) Симметрическая разность
+5) Дополнение
+6) Декартово произведение
 0) Назад
 Введите номер: ");
                 chose = int.Parse(Console.ReadLine());
@@ -75,6 +78,38 @@ namespace Практики
                     case 4:
                         {
                             Console.WriteLine(JsonConvert.SerializeObject(SetSimSubstract(A, B)));
+                            break;
+                        }
+                    case 5:
+                        {
+                            Console.Write("Введите нижнюю и верхнюю границу универсума через пробел: ");
+                            var splitted = Console.ReadLine().Split(' ');
+                            int min = int.Parse(splitted[0]);
+                            int max = int.Parse(splitted[1]);
+                            HashSet<int> U = new HashSet<int>();
+                            for (int i = min; i <= max; i++)
+                            {
+                                U.Add(i);
+                            }
+                            if (A.Any(e=>!U.Contains(e)))
+                            {
+                                Console.WriteLine("Хотя бы один элемент последовательности выходит за рамки универсума");
+                                break;
+                            }
+                            Console.WriteLine(JsonConvert.SerializeObject(SetSubstract(U, A)));
+                            break;
+                        }
+                    case 6:
+                        {
+                            BinRel dec = new BinRel();
+                            foreach (var first in A)
+                            {
+                                foreach (var second in B)
+                                {
+                                    dec.Add(new Tuple<int, int>(first, second));
+                                }
+                            }
+                            Console.WriteLine(dec.toString());
                             break;
                         }
                     default:
@@ -128,7 +163,7 @@ namespace Практики
                         {
                             Console.Write(@"Введите элементы второго бинарного отношения через запятую: ");
                             BinRel br2 = new BinRel(Console.ReadLine());
-                            Console.WriteLine();
+                            Console.WriteLine(br1.composition(br2).toString());
                             break;
                         }
                     default:
@@ -162,33 +197,6 @@ namespace Практики
                         break;
                 }
             } while (true);
-        }
-    }
-
-    [Serializable]
-    class BinRel : HashSet<Tuple<int, int>>
-    {
-        public BinRel(string input) : base(input.Split(',').Select(delegate (string tupleStr)
-        {
-            var withoutBraces = tupleStr.Replace("(", "").Replace(")", "");
-            var splitted = withoutBraces.Split(';').Select(strNum => int.Parse(strNum)).ToArray();
-            return new Tuple<int, int>(splitted[0], splitted[1]);
-        }))
-        { }
-
-        public BinRel(IEnumerable<Tuple<int, int>> set) : base(set) { }
-
-        public BinRel reverse()
-        {
-            return new BinRel(this.Select(delegate (Tuple<int, int> tuple)
-            {
-                return new Tuple<int, int>(tuple.Item2, tuple.Item1);
-            }));
-        }
-
-        public string toString()
-        {
-            return JsonConvert.SerializeObject(this.Select(tuple => $"({tuple.Item1};{tuple.Item2})")).Replace("\"", "");
         }
     }
 }

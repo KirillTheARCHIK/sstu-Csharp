@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+п»ї<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{A0F22506-F3E3-47FB-8471-580B0E9D15C9}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Практики</RootNamespace>
-    <AssemblyName>Практики</AssemblyName>
+    <RootNamespace>пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ</RootNamespace>
+    <AssemblyName>пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -62,13 +62,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Command.cs" />
-    <Compile Include="Discrete1.cs" />
+    <Compile Include="Programs\Discrete1.cs" />
     <Compile Include="History.cs" />
     <Compile Include="OS.cs" />
-    <Compile Include="Practice6.cs" />
+    <Compile Include="Programs\Discrete2.cs" />
+    <Compile Include="Programs\Practice6.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SubProgram.cs" />
+    <Compile Include="Utils\BinRel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
