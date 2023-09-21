@@ -49,7 +49,10 @@ namespace Практики
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine($"{e.Message}\n{e.StackTrace}");
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(e.Message);
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine(e.StackTrace);
                 }
 
             }
