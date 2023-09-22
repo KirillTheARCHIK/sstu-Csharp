@@ -28,7 +28,7 @@ namespace Практики
             modificators = new List<string>();
             foreach (var str in splitted.Skip(1))
             {
-                if (str.StartsWith("-"))
+                if (str.StartsWith("-") && !double.TryParse(str, out var _))
                 {
                     modificators.Add(str);
                     break;
