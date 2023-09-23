@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Практики
@@ -11,38 +12,71 @@ namespace Практики
         {
             ["start"] = delegate (Command command, History hist)
             {
-                if (command.Arguments.Count != 1)
-                {
-                    throw new CommandExeption("Отсутствует аргумент\n         ↓\nstart <count>");
-                }
+                //if (command.Arguments.Count != 1)
+                //{
+                //    throw new CommandExeption("Отсутствует аргумент\n         ↓\nstart <count>");
+                //}
 
-                int n;
-                if (!int.TryParse(command.Arguments[0], out n))
-                {
-                    throw new CommandExeption("Аргумент <count> не число");
-                }
-                if (n < 0)
-                {
-                    throw new CommandExeption("Аргумент <count> меньше нуля");
-                }
                 Random rand = new Random();
-                var X1 = new List<double>();
+                int n  = rand.Next(1,11);
+                //if (!int.TryParse(command.Arguments[0], out n))
+                //{
+                //    throw new CommandExeption("Аргумент <count> не число");
+                //}
+                //if (n < 1)
+                //{
+                //    throw new CommandExeption("Аргумент <count> меньше единицы");
+                //}
+                var initialList = new List<int>();
                 for (int i = 0; i < n; i++)
                 {
-                    X1.Add(rand.Next(0, 51));
+                    initialList.Add(rand.Next(1, 11));
                 }
-                Console.WriteLine(JsonConvert.SerializeObject(X1));
-                var X2 = new List<double>();
-                foreach (var item in X1)
+                Console.WriteLine($"Изначальные числа: {JsonConvert.SerializeObject(initialList)}");
+                int c = initialList[initialList.Count - 1];
+                initialList.RemoveAt(initialList.Count - 1);
+                var polynomial = new Polynomial();
+                if (initialList.Count >= 1)
                 {
-                    if (item > 24 && item < 34)
+                    foreach (var power in initialList)
                     {
-                        X2.Add(item);
+                        if (polynomial.Count == 0 || polynomial[polynomial.Count - 1].power - power == 1)
+                        {
+                            polynomial.Add(new PolynomialVariable(rand.Next(-20,20) , power));
+                        }
                     }
                 }
-                Console.WriteLine(JsonConvert.SerializeObject(X2));
+                polynomial.Add(new PolynomialVariable(c, 0));
+                Console.WriteLine($"С коэффициентами: {polynomial}");
             }
         })
         { }
     }
+
+    internal class PolynomialVariable
+    {
+        public double coefficient;
+        public double power;
+
+        public PolynomialVariable(double coefficient, double power)
+        {
+            this.coefficient = coefficient;
+            this.power = power;
+        }
+
+
+    }
+
+    internal class Polynomial : List<PolynomialVariable>
+    {
+        public Polynomial() : base(){ }
+        public Polynomial(List<PolynomialVariable> polynomialVariables) : base(polynomialVariables) { }
+
+        override
+        public string ToString()
+        {
+            return String.Join(" + ", this.Select(e => e.power == 0 ? $"{e.coefficient}" : $"{e.coefficient}x{Utils.getIndexString(e.power)}")).Replace("+ -", "- ");
+        }
+    }
+
 }

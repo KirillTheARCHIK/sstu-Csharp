@@ -56,8 +56,9 @@ namespace Практики
             return new List<SubProgram>
             {
                new Practice6(history),
+               new Practice7(history),
                new Discrete1(history),
-               new Discrete2(history),
+               new Discrete3(history),
             };
         }
     }

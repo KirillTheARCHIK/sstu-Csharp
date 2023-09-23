@@ -8,9 +8,9 @@ using Практики;
 
 namespace Programs
 {
-    internal class Discrete2 : SubProgram
+    internal class Discrete3 : SubProgram
     {
-        public Discrete2(History history) : base("d2", history, new Listeners()
+        public Discrete3(History history) : base("d2", history, new Listeners()
         {
             ["build"] = delegate (Command command, History hist)
             {
