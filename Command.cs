@@ -17,15 +17,29 @@ namespace Практики
 
         public Command(string source)
         {
+            arguments = new List<string>();
+            modificators = new List<string>();
             if (source.StartsWith("-"))
             {
                 source = " " + source;
             }
 
-            var splitted = source.Split(' ');
+            var quotesSplitted = source.Split('"').ToList();
+            var outerQuotesStr = "";
+            for (int i = 0; i < quotesSplitted.Count; i++)
+            {
+                if (i % 2 == 1)
+                {
+                    arguments.Add(quotesSplitted[i]);
+                }
+                else
+                {
+                    outerQuotesStr += quotesSplitted[i];
+                }
+            }
+            var splitted = outerQuotesStr.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             action = splitted[0];
-            arguments = new List<string>();
-            modificators = new List<string>();
+
             foreach (var str in splitted.Skip(1))
             {
                 if (str.StartsWith("-") && !double.TryParse(str, out var _))
@@ -38,7 +52,8 @@ namespace Практики
         }
     }
 
-    internal class CommandExeption : OSExeption {
+    internal class CommandExeption : OSExeption
+    {
         public CommandExeption() : base() { }
         public CommandExeption(string message) : base(message) { }
     }

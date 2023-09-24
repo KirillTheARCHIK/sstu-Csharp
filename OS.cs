@@ -57,6 +57,8 @@ namespace Практики
             {
                new Practice6(history),
                new Practice7(history),
+               new Practice8(history),
+               new Practice9(history),
                new Discrete1(history),
                new Discrete3(history),
             };
