@@ -24,12 +24,27 @@ namespace Programs
         }
         bool ResolveExpression(string subExpression)
         {
-            if (subExpression.Length==1)
+            if (subExpression.StartsWith("(") && subExpression.EndsWith(")"))
+            {
+                subExpression = subExpression.Substring(1, subExpression.Length - 2);
+            }
+            if (subExpression.Length == 1)
             {
                 return variableValues[subExpression[0]];
             }
-            Regex binaryRegex = new Regex(@"");
-            Regex unaryRegex = new Regex(@"^(?<operator>[!])(?<value>(\(.+\)|[A-Za-z]{1}))&");
+            Regex binaryRegex = new Regex(@"\A(?<valueA>(\(.+\)|[A-Za-z]{1}))(?<operator>[\&\|])(?<valueB>(\(.+\)|[A-Za-z]{1}))\Z");
+            var binaryMatch = binaryRegex.Match(subExpression);
+            if (binaryMatch.Success)
+            {
+                return BoolOperation(ResolveExpression(binaryMatch.Groups["valueA"].Value), ResolveExpression(binaryMatch.Groups["valueB"].Value), binaryMatch.Groups["operator"].Value[0]);
+            }
+            Regex unaryRegex = new Regex(@"\A(?<operator>[\!])(?<value>(\(.+\)|[A-Za-z]{1}))\Z");
+            var unaryMatch = unaryRegex.Match(subExpression);
+            if (unaryMatch.Success)
+            {
+                return BoolOperation(ResolveExpression(unaryMatch.Groups["value"].Value), unaryMatch.Groups["operator"].Value[0]);
+            }
+            throw new OSExeption("Выражение составлено некорректно");
         }
         bool BoolOperation(bool a, char operation)
         {
@@ -40,7 +55,7 @@ namespace Programs
                         return !a;
                     }
                 default:
-                    throw new OSExeption("Wrong bool operator");
+                    throw new OSExeption("Несуществующий унарный оператор");
             }
         }
         bool BoolOperation(bool a, bool b, char operation)
@@ -56,7 +71,7 @@ namespace Programs
                         return a | b;
                     }
                 default:
-                    throw new OSExeption("Wrong bool operator");
+                    throw new OSExeption("Несуществующий бинарный оператор");
             }
         }
     }
@@ -93,7 +108,9 @@ namespace Programs
             Console.WriteLine(header);
             foreach (var _case in cases)
             {
-                Console.WriteLine(makeRow(_case.variableValues.Values.Select(e => e ? "1" : "0").ToList(), widths));
+                var rowData = _case.variableValues.Values.Select(e => e ? "1" : "0").ToList();
+                rowData.Add(_case.result ? "1" : "0");
+                Console.WriteLine(makeRow(rowData, widths));
             }
         }
 
