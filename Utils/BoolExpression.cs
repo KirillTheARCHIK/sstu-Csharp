@@ -103,49 +103,15 @@ namespace Programs
             widths.AddRange(new List<uint> { 7, 5, 5 });
             var columns = new List<string>(cases[0].variableValues.Keys.Select(c => c.ToString()));
             columns.AddRange(new List<string> { "резул", "кон", "диз" });
-            var header = makeRow(columns, widths);
-            Console.WriteLine(makeLine(header.Length / 2));
+            var header = ConsoleTable.makeRow(columns, widths);
+            Console.WriteLine(ConsoleTable.makeLine(header.Length / 2));
             Console.WriteLine(header);
             foreach (var _case in cases)
             {
                 var rowData = _case.variableValues.Values.Select(e => e ? "1" : "0").ToList();
                 rowData.Add(_case.result ? "1" : "0");
-                Console.WriteLine(makeRow(rowData, widths));
+                Console.WriteLine(ConsoleTable.makeRow(rowData, widths));
             }
-        }
-
-        static string makeLine(int width)
-        {
-            string s = "";
-            for (int i = 0; i < width; i++)
-            {
-                s += '-';
-            }
-            return s;
-        }
-
-        static string makeCell(string data, uint width)
-        {
-            string s = "";
-            for (int i = 0; i < width; i++)
-            {
-                s += ' ';
-            }
-            s = s.Insert((int)((width - data.Length) / 2), data).Substring(0, (int)width);
-            s += '|';
-            return s;
-        }
-
-        static string makeRow(List<string> data, List<uint> widths)
-        {
-            string s = "|";
-            for (int i = 0; i < widths.Count; i++)
-            {
-                s += makeCell(data.Count > i ? data[i] : "", widths[i]);
-            }
-            s += '\n';
-            s += makeLine(s.Length - 1);
-            return s;
         }
 
         static HashSet<char> getVariables(string input)
