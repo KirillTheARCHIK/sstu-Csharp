@@ -19,7 +19,8 @@ namespace Programs
                     throw new CommandExeption("Отсутствует аргумент\n         ↓\nbuild <input>");
                 }
                 string input = command.Arguments[0];
-                var exp = new BoolExpression(input.Replace(" ", ""));
+                bool debug = command.Modificators.Contains("-d");
+                var exp = new BoolExpression(input.Replace(" ", ""), debug);
                 exp.printTable();
             },
         })

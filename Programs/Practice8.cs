@@ -44,7 +44,7 @@ namespace Programs
                     //var results = morph.Parse(allWords).ToArray();
                     //var morphInfo = results[0];
                     //Console.WriteLine(String.Join("\n", morphInfo["чр"].Grams));
-                    List<uint> columnWidths = new List<uint>() { 4 };
+                    List<int> columnWidths = new List<int>() { 4 };
                     List<string> postNames = new List<string>() {
                         "част",
                         "нареч",
@@ -60,7 +60,7 @@ namespace Programs
                     };
                     foreach (var postName in postNames)
                     {
-                        columnWidths.Add((uint)postName.Length);
+                        columnWidths.Add(postName.Length);
                     }
                     List<List<string>> postValues = new List<List<string>>();
                     for (int i = 0; i < sentenses.Length; i++)

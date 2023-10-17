@@ -18,19 +18,19 @@ namespace Практики
             return s;
         }
 
-        static public string makeCell(string data, uint width)
+        static public string makeCell(string data, int width)
         {
             string s = "";
             for (int i = 0; i < width; i++)
             {
                 s += ' ';
             }
-            s = s.Insert((int)((width - data.Length) / 2), data).Substring(0, (int)width);
+            s = s.Insert((width - data.Length) / 2, data).Substring(0, width);
             s += '|';
             return s;
         }
 
-        static public string makeRow(List<string> data, List<uint> widths)
+        static public string makeRow(List<string> data, List<int> widths)
         {
             string s = "|";
             for (int i = 0; i < widths.Count; i++)
@@ -42,14 +42,14 @@ namespace Практики
             return s;
         }
 
-        static public void makeTable(List<uint> widths, List<string> headerData, List<List<string>> data)
+        static public void makeTable(List<int> widths, List<string> headerData, List<List<string>> data)
         {
-            var header = ConsoleTable.makeRow(headerData, widths);
-            Console.WriteLine(ConsoleTable.makeLine(header.Length / 2));
+            var header = makeRow(headerData, widths);
+            Console.WriteLine(makeLine(header.Length / 2));
             Console.WriteLine(header);
             foreach (var item in data)
             {
-                Console.WriteLine(ConsoleTable.makeRow(item, widths));
+                Console.WriteLine(makeRow(item, widths));
             }
         }
     }

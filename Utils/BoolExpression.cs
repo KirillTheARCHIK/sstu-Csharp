@@ -8,23 +8,64 @@ using System.Text.RegularExpressions;
 
 namespace Programs
 {
-    internal class BoolExpressionCase
+    internal class Konjunct
     {
         public Dictionary<char, bool> variableValues;
-        public bool result;
-        public BoolExpressionCase(HashSet<char> variables, int index, string expression)
+        public Konjunct(Dictionary<char, bool> variableValues)
         {
+            this.variableValues = variableValues;
+        }
+
+        override public string ToString()
+        {
+            return string.Join("", variableValues.Select(v => v.Value ? v.Key.ToString() : "¬" + v.Key.ToString()));
+        }
+    }
+    internal class Disjunct
+    {
+        public Dictionary<char, bool> variableValues;
+        public Disjunct(Dictionary<char, bool> variableValues)
+        {
+            this.variableValues = variableValues;
+        }
+
+        override public string ToString()
+        {
+            return string.Join("v", variableValues.Select(v => v.Value ? "¬" + v.Key.ToString() : v.Key.ToString()));
+        }
+    }
+    internal class BoolExpressionCase
+    {
+        public bool debug = false;
+
+        public Dictionary<char, bool> variableValues;
+        public bool result;
+        public Konjunct konjunct;
+        public Disjunct disjunct;
+        public BoolExpressionCase(HashSet<char> variables, int index, string expression, bool debug)
+        {
+            this.debug = debug;
             variableValues = new Dictionary<char, bool>();
             for (int j = 0; j < variables.Count; j++)
             {
                 int value = (index % (int)Math.Pow(2, variables.Count - j)) / (int)Math.Pow(2, variables.Count - j - 1);
                 variableValues.Add(variables.ElementAt(j), value == 1);
             }
-            if (BoolExpression.debug)
+            if (debug)
             {
                 Console.WriteLine($"\nCASE   {String.Join(" ", variableValues.Values.Select(e => e ? "1" : "0"))}\n");
             }
             result = ResolveExpression(expression);
+            if (result)
+            {
+                konjunct = new Konjunct(variableValues);
+            }
+            else
+            {
+                disjunct = new Disjunct(variableValues);
+            }
+
+            this.debug = debug;
         }
         string unaryOperators = "¬!";
         string binaryOperators = "\\˄∧&\\|˅∨↓→=≡↔☺⊕";
@@ -38,7 +79,7 @@ namespace Programs
             }
             while (expression.Length > 1)
             {
-                if (BoolExpression.debug)
+                if (debug)
                 {
                     Console.WriteLine(expression);
                 }
@@ -54,7 +95,7 @@ namespace Programs
                 {
                     continue;
                 }
-                if (ReplaceBinary(ref expression, "˅∨↓".ToCharArray()))
+                if (ReplaceBinary(ref expression, "˅∨vV↓".ToCharArray()))
                 {
                     continue;
                 }
@@ -68,7 +109,7 @@ namespace Programs
                 }
                 break;
             }
-            if (BoolExpression.debug)
+            if (debug)
             {
                 Console.WriteLine(expression);
             }
@@ -77,27 +118,6 @@ namespace Programs
                 return expression[0] == '1';
             }
             throw new OSExeption("Выражение составлено некорректно");
-            //if (subExpression.StartsWith("(") && subExpression.EndsWith(")"))
-            //{
-            //    subExpression = subExpression.Substring(1, subExpression.Length - 2);
-            //}
-            //if (subExpression.Length == 1)
-            //{
-            //    return variableValues[subExpression[0]];
-            //}
-            //Regex binaryRegex = new Regex($"\\A(?<valueA>(\\(.+\\)|{variableChars}))(?<operator>{binaryOperators})(?<valueB>(\\(.+\\)|{variableChars}))\\Z");
-            //var binaryMatch = binaryRegex.Match(subExpression);
-            //if (binaryMatch.Success)
-            //{
-            //    return BoolOperation(ResolveExpression(binaryMatch.Groups["valueA"].Value), ResolveExpression(binaryMatch.Groups["valueB"].Value), binaryMatch.Groups["operator"].Value[0]);
-            //}
-            //Regex unaryRegex = new Regex($"\\A(?<operator>{unaryOperators})(?<value>(\\(.+\\)|{variableChars}))\\Z");
-            //var unaryMatch = unaryRegex.Match(subExpression);
-            //if (unaryMatch.Success)
-            //{
-            //    return BoolOperation(ResolveExpression(unaryMatch.Groups["value"].Value), unaryMatch.Groups["operator"].Value[0]);
-            //}
-            //throw new OSExeption("Выражение составлено некорректно");
         }
         bool ReplaceBrackets(ref string expression)
         {
@@ -165,7 +185,7 @@ namespace Programs
             }
         }
         //Коньюнкция: ∧˄&
-        //Дизъюнкция: ∨˅
+        //Дизъюнкция: ∨˅Vv
         //Импликация: → 
         //Эквивалентность: =≡↔
         //Исключающее или: ☺⊕
@@ -183,6 +203,8 @@ namespace Programs
                     }
                 case '∨':
                 case '˅':
+                case 'v':
+                case 'V':
                     {
                         return a | b;
                     }
@@ -230,31 +252,33 @@ namespace Programs
     }
     internal class BoolExpression
     {
-        static uint cellWidth = 3;
-        public static bool debug = true;
+        static int cellWidth = 3;
+        public bool debug = false;
 
         HashSet<char> variables;
         List<BoolExpressionCase> cases;
 
-        public BoolExpression(string input)
+        public BoolExpression(string input, bool debug)
         {
+            this.debug = debug;
+
             variables = getVariables(input);
             cases = new List<BoolExpressionCase>();
             for (int i = 0; i < (int)Math.Pow(2, variables.Count); i++)
             {
-                var newCase = new BoolExpressionCase(variables, i, input);
+                var newCase = new BoolExpressionCase(variables, i, input, debug);
                 cases.Add(newCase);
             }
         }
 
         public void printTable()
         {
-            List<uint> widths = new List<uint>() { };
+            List<int> widths = new List<int>() { };
             for (int i = 0; i < variables.Count; i++)
             {
                 widths.Add(cellWidth);
             }
-            widths.AddRange(new List<uint> { 7, 5, 5 });
+            widths.AddRange(new List<int> { 7, variables.Count * 2, variables.Count * 2 });
             var columns = new List<string>(cases[0].variableValues.Keys.Select(c => c.ToString()));
             columns.AddRange(new List<string> { "резул", "кон", "диз" });
             var header = ConsoleTable.makeRow(columns, widths);
@@ -262,10 +286,18 @@ namespace Programs
             Console.WriteLine(header);
             foreach (var _case in cases)
             {
+                //variables
                 var rowData = _case.variableValues.Values.Select(e => e ? "1" : "0").ToList();
+                //result
                 rowData.Add(_case.result ? "1" : "0");
+                //kon
+                rowData.Add(_case.konjunct?.ToString() ?? "");
+                //dis
+                rowData.Add(_case.disjunct?.ToString() ?? "");
                 Console.WriteLine(ConsoleTable.makeRow(rowData, widths));
             }
+            Console.WriteLine($"СКНФ: {string.Join("&", cases.Where(c => c.disjunct != null).Select(c => $"({c.disjunct})"))}");
+            Console.WriteLine($"СДНФ: {string.Join("v", cases.Where(c => c.konjunct != null).Select(c => $"({c.konjunct})"))}");
         }
 
         static HashSet<char> getVariables(string input)
