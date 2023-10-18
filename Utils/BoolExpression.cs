@@ -5,8 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Практики;
 using System.Text.RegularExpressions;
+using System.Security.Cryptography;
 
-namespace Programs
+namespace Практики
 {
     internal class Konjunct
     {
@@ -19,6 +20,65 @@ namespace Programs
         override public string ToString()
         {
             return string.Join("", variableValues.Select(v => v.Value ? v.Key.ToString() : "¬" + v.Key.ToString()));
+        }
+        public bool EqualVariables(KeyValuePair<char, bool> a, KeyValuePair<char, bool> b)
+        {
+            return a.Key == b.Key && a.Value == b.Value;
+        }
+        public override bool Equals(object obj)
+        {
+            if (obj is Konjunct)
+            {
+                if (variableValues.Count != (obj as Konjunct).variableValues.Count)
+                {
+                    return false;
+                }
+                foreach (var otherKonjunct in (obj as Konjunct).variableValues)
+                {
+                    if (!HasEqualVariable(this, otherKonjunct.Key, otherKonjunct.Value))
+                    {
+                        return false;
+                    }
+                }
+                //Console.WriteLine($"{this} {obj} Equal");
+                return true;
+            }
+            throw new NotImplementedException();
+        }
+        public bool Contains(Konjunct other)
+        {
+            foreach (var otherKonjunct in other.variableValues)
+            {
+                if (!HasEqualVariable(this, otherKonjunct.Key, otherKonjunct.Value))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        public bool HasEqualVariable(Konjunct other, char variable, bool value)
+        {
+            return variableValues.ContainsKey(variable) && other.variableValues.ContainsKey(variable) && value == other.variableValues[variable];
+        }
+        public List<char> findDifferentVariableValues(Konjunct other)
+        {
+            List<char> differentVariables = new List<char>();
+            if (!variableValues.Keys.SequenceEqual(other.variableValues.Keys))
+            {
+                return differentVariables;
+            }
+            foreach (var key in variableValues.Keys)
+            {
+                if (variableValues[key] != other.variableValues[key])
+                {
+                    differentVariables.Add(key);
+                }
+            }
+            return differentVariables;
+        }
+        public static string SDNFToString(IEnumerable<Konjunct> SDNF)
+        {
+            return string.Join("v", SDNF.Select(k => $"({k})"));
         }
     }
     internal class Disjunct
@@ -99,7 +159,7 @@ namespace Programs
                 {
                     continue;
                 }
-                if (ReplaceBinary(ref expression, "→".ToCharArray()))
+                if (ReplaceBinary(ref expression, "→>".ToCharArray()))
                 {
                     continue;
                 }
@@ -209,6 +269,7 @@ namespace Programs
                         return a | b;
                     }
                 case '→':
+                case '>':
                     {
                         return !a | b;
                     }
@@ -296,8 +357,10 @@ namespace Programs
                 rowData.Add(_case.disjunct?.ToString() ?? "");
                 Console.WriteLine(ConsoleTable.makeRow(rowData, widths));
             }
+            var SDNF = cases.Where(c => c.konjunct != null).Select(c => c.konjunct).ToList();
             Console.WriteLine($"СКНФ: {string.Join("&", cases.Where(c => c.disjunct != null).Select(c => $"({c.disjunct})"))}");
-            Console.WriteLine($"СДНФ: {string.Join("v", cases.Where(c => c.konjunct != null).Select(c => $"({c.konjunct})"))}");
+            Console.WriteLine($"СДНФ: {Konjunct.SDNFToString(SDNF)}");
+            Console.WriteLine($"МДНФ: {FindMDNF(SDNF)}");
         }
 
         static HashSet<char> getVariables(string input)
@@ -311,6 +374,62 @@ namespace Programs
                 }
             }
             return variables.OrderBy(c => (int)c).ToHashSet();
+        }
+
+        string FindMDNF(List<Konjunct> SDNF)
+        {
+            var extendedSDNF = SDNF.ToList();
+            int i = 0;
+            while (i < extendedSDNF.Count)
+            {
+                for (int j = 0; j < extendedSDNF.Count; j++)
+                {
+                    var konjunct = extendedSDNF[j];
+                    var differentVariables = extendedSDNF[i].findDifferentVariableValues(konjunct);
+                    if (differentVariables.Count == 1)
+                    {
+                        var newKonjunctVariables = new Dictionary<char, bool>();
+                        foreach (var item in konjunct.variableValues.Where(var => var.Key != differentVariables[0]))
+                        {
+                            newKonjunctVariables.Add(item.Key, item.Value);
+                        }
+                        extendedSDNF.Add(new Konjunct(newKonjunctVariables));
+                        //break;
+                    }
+                }
+                i++;
+            }
+            if (debug)
+            {
+                Console.WriteLine($"Расширенная СДНФ: {Konjunct.SDNFToString(extendedSDNF)}");
+            }
+            extendedSDNF = extendedSDNF.RemoveDuplicates();
+            if (debug)
+            {
+                Console.WriteLine($"Расширенная СДНФ\nбез дубликатов:   {Konjunct.SDNFToString(extendedSDNF)}");
+            }
+            var shortSDNF = extendedSDNF.Where(kon => extendedSDNF.Where(e => e != kon).FirstOrDefault(k => kon.Contains(k)) == null).ToList();
+            if (debug)
+            {
+                Console.WriteLine($"Сокращённая СДНФ:   {Konjunct.SDNFToString(shortSDNF)}");
+            }
+            var KveinMatrix = new Dictionary<Konjunct, Dictionary<Konjunct, bool>>();
+            foreach (var kon in shortSDNF)
+            {
+                var row = new Dictionary<Konjunct, bool>();
+                foreach (var originKon in SDNF)
+                {
+                    row.Add(originKon, originKon.Contains(kon));
+                }
+                KveinMatrix.Add(kon, row);
+            }
+            var header = SDNF.Select(k => k.ToString());
+            var widths = header.Select(s => s.Length);
+            header = header.Prepend("");
+            widths = widths.Prepend(shortSDNF.Select(k => k.ToString()).OrderBy(s => s.Length).Last().Length);
+            Console.WriteLine("Матрица Квайна:");
+            ConsoleTable.makeTable(widths, header, KveinMatrix.Select(row => new List<string>() { row.Key.ToString() }.Concat(row.Value.Select(b => b.Value ? "+" : "-"))));
+            return "";
         }
     }
 }

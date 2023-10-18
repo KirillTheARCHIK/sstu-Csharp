@@ -30,19 +30,19 @@ namespace Практики
             return s;
         }
 
-        static public string makeRow(List<string> data, List<int> widths)
+        static public string makeRow(IEnumerable<string> data, IEnumerable<int> widths)
         {
             string s = "|";
-            for (int i = 0; i < widths.Count; i++)
+            for (int i = 0; i < widths.Count(); i++)
             {
-                s += makeCell(data.Count > i ? data[i] : "", widths[i]);
+                s += makeCell(data.Count() > i ? data.ElementAt(i) : "", widths.ElementAt(i));
             }
             s += '\n';
             s += makeLine(s.Length - 1);
             return s;
         }
 
-        static public void makeTable(List<int> widths, List<string> headerData, List<List<string>> data)
+        static public void makeTable(IEnumerable<int> widths, IEnumerable<string> headerData, IEnumerable<IEnumerable<string>> data)
         {
             var header = makeRow(headerData, widths);
             Console.WriteLine(makeLine(header.Length / 2));

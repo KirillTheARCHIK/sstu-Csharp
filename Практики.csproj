@@ -89,6 +89,7 @@
     <Compile Include="Utils\BinRel.cs" />
     <Compile Include="Utils\BoolExpression.cs" />
     <Compile Include="Utils\ConsoleTable.cs" />
+    <Compile Include="Utils\ListExtension.cs" />
     <Compile Include="Utils\Utils.cs" />
   </ItemGroup>
   <ItemGroup>
