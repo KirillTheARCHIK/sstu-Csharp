@@ -127,8 +127,6 @@ namespace Практики
 
             this.debug = debug;
         }
-        string unaryOperators = "¬!";
-        string binaryOperators = "\\˄∧&\\|˅∨↓→=≡↔☺⊕";
         //string variableChars = "[A-Za-z]{1}";
         string variableChars = "[01]{1}";
         bool ResolveExpression(string expression)
@@ -181,11 +179,13 @@ namespace Практики
         }
         bool ReplaceBrackets(ref string expression)
         {
-            Regex regex = new Regex($"\\((?<valueA>{variableChars})\\)");
+            Regex regex = new Regex(@"\((?<inner>[^\(\)]+?)\)");
             var match = regex.Match(expression);
             if (match.Success)
             {
-                expression = expression.Replace(match.Value, match.Groups["valueA"].Value);
+                var inner = match.Groups["inner"].Value.ToString();
+                Console.WriteLine($"Inner {inner}");
+                expression = expression.Replace(match.Value, BoolToChar(ResolveExpression(inner)).ToString());
                 return true;
             }
             return false;
@@ -339,7 +339,7 @@ namespace Практики
             {
                 widths.Add(cellWidth);
             }
-            widths.AddRange(new List<int> { 7, variables.Count * 2, variables.Count * 2 });
+            widths.AddRange(new List<int> { 7, variables.Count * 2, variables.Count * 3 });
             var columns = new List<string>(cases[0].variableValues.Keys.Select(c => c.ToString()));
             columns.AddRange(new List<string> { "резул", "кон", "диз" });
             var header = ConsoleTable.makeRow(columns, widths);
@@ -368,7 +368,7 @@ namespace Практики
             var variables = new HashSet<char>();
             foreach (char c in input)
             {
-                if (c >= 'A' & c <= 'z')
+                if (c >= 'A' & c <= 'z' & c != 'v' & c != 'V')
                 {
                     variables.Add(c);
                 }
@@ -411,7 +411,7 @@ namespace Практики
             var shortSDNF = extendedSDNF.Where(kon => extendedSDNF.Where(e => e != kon).FirstOrDefault(k => kon.Contains(k)) == null).ToList();
             if (debug)
             {
-                Console.WriteLine($"Сокращённая СДНФ:   {Konjunct.SDNFToString(shortSDNF)}");
+                Console.WriteLine($"Сокращённая СДНФ: {Konjunct.SDNFToString(shortSDNF)}");
             }
             var KveinMatrix = new Dictionary<Konjunct, Dictionary<Konjunct, bool>>();
             foreach (var kon in shortSDNF)
@@ -429,7 +429,16 @@ namespace Практики
             widths = widths.Prepend(shortSDNF.Select(k => k.ToString()).OrderBy(s => s.Length).Last().Length);
             Console.WriteLine("Матрица Квайна:");
             ConsoleTable.makeTable(widths, header, KveinMatrix.Select(row => new List<string>() { row.Key.ToString() }.Concat(row.Value.Select(b => b.Value ? "+" : "-"))));
-            return "";
+            
+            foreach (var konjunct in KveinMatrix.Keys.ToArray())
+            {
+                if (SDNF.All(originKon => KveinMatrix.Where(row => row.Key != konjunct && row.Value[originKon]).Count() > 0))
+                {
+                    KveinMatrix.Remove(konjunct);
+                }
+            }
+
+            return Konjunct.SDNFToString(KveinMatrix.Keys);
         }
     }
 }
