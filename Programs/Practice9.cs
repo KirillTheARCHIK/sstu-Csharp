@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using DeepMorphy;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +13,41 @@ namespace Programs
     {
         public Practice9(History history) : base("p9", history, new Listeners()
         {
-            [""] = delegate (Command command, History hist)
+            ["a"] = delegate (Command command, History hist)
             {
+                {
+                    string[] words = new string[]
+                {
+                    "Играют",
+                    "волны",
+                    "ветер",
+                    "свищет",
+                    "И",
+                    "мачта",
+                    "гнется",
+                    "и",
+                    "скрипит",
+                    "Увы",
+                    "Он",
+                    "счастия",
+                    "не",
+                    "ищет",
+                    "И",
+                    "не",
+                    "от",
+                    "счастия",
+                    "бежит"
+                }; var m = new MorphAnalyzer();
+                    var results = m.Parse(words).ToArray();
+                    foreach (var morphInfo in results)
+                    {
+                        if (morphInfo["чр"].BestGramKey == "гл")
+                        {
+                            Console.WriteLine(morphInfo.ToString());
+                        }
+                    }
 
+                }
             }
         })
         { }
@@ -40,7 +73,7 @@ namespace Programs
         }
         public int Year
         {
-            get => year; 
+            get => year;
             private set
             {
                 if (value < 1 || value > 11)
