@@ -21,4 +21,11 @@ namespace Практики
             return newList;
         }
     }
+    public static class BoolExtension
+    {
+        public static bool Imp(this bool a, bool b)
+        {
+            return !a | b;
+        }
+    }
 }

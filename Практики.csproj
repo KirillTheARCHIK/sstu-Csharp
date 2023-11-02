@@ -80,6 +80,7 @@
     <Compile Include="Programs\Discrete1.cs" />
     <Compile Include="History.cs" />
     <Compile Include="OS.cs" />
+    <Compile Include="Programs\Discrete2.cs" />
     <Compile Include="Programs\Discrete3.cs" />
     <Compile Include="Programs\Practice6.cs" />
     <Compile Include="Program.cs" />
@@ -91,7 +92,7 @@
     <Compile Include="Utils\BinRel.cs" />
     <Compile Include="Utils\BoolExpression.cs" />
     <Compile Include="Utils\ConsoleTable.cs" />
-    <Compile Include="Utils\ListExtension.cs" />
+    <Compile Include="Utils\Extensions.cs" />
     <Compile Include="Utils\Utils.cs" />
   </ItemGroup>
   <ItemGroup>

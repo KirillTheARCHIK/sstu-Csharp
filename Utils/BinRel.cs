@@ -43,7 +43,73 @@ namespace Практики
         {
             get
             {
-                return false;
+                return this.All(tuple => tuple.Item1 == tuple.Item2);
+            }
+        }
+        public bool IrReflective
+        {
+            get
+            {
+                return this.All(tuple => tuple.Item1 != tuple.Item2);
+            }
+        }
+        public bool Symmetrical
+        {
+            get
+            {
+                return this.All(tuple =>
+                    this.Any(t =>
+                        tuple.Item1 == t.Item2 &&
+                        tuple.Item2 == t.Item1
+                    )
+                );
+            }
+        }
+        public bool AntiSymmetrical
+        {
+            get
+            {
+                return this.All(tuple =>
+                   this.Any(t =>
+                        tuple.Item1 == t.Item2 &&
+                        tuple.Item2 == t.Item1
+                    ).Imp(tuple.Item1 == tuple.Item2)
+               );
+            }
+        }
+        public bool Transitive
+        {
+            get
+            {
+                return this.All(delegate (Tuple<int, int> AB)
+                {
+                    AB.Deconstruct(out int a, out int b);
+                    var findedBC = this.FirstOrDefault(tuple => tuple.Item1 == b);
+                    if (findedBC != null)
+                    {
+                        int c = findedBC.Item2;
+                        return (findedBC != null).Imp(this.Any(tuple => tuple.Item1 == a && tuple.Item2 == c));
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+               ); ;
+            }
+        }
+        public bool Equivalence
+        {
+            get
+            {
+                return Reflective & Symmetrical & Transitive;
+            }
+        }
+        public bool Order
+        {
+            get
+            {
+                return Reflective & AntiSymmetrical & Transitive;
             }
         }
     }
