@@ -43,7 +43,57 @@ namespace Практики
                     Console.WriteLine($"Это не эквивалентность и не порядок");
                 }
             },
+            ["factor"] = delegate (Command command, History hist)
+            {
+                var books = new List<Book>() {
+                    new Book("Мастер и Маргарита", "Михаил Булгаков"),
+                    new Book("Маленький принц", "Антуан де Сент-Экзюпери"),
+                    new Book("Собачье сердце", "Михаил Булгаков"),
+                    new Book("Война и мир", "Лев Толстой"),
+                    new Book("Преступление и наказание", "Федор Достоевский"),
+                    new Book("Герой нашего времени", "Михаил Лермонтов"),
+                    new Book("Двенадцать стульев", "Илья Ильф, Евгений Петров"),
+                    new Book("Евгений Онегин", "Александр Пушкин"),
+                    new Book("Сто лет одиночества", "Габриэль Гарсиа Маркес"),
+                    new Book("Рассказы", "Антон Чехов"),
+                };
+
+                Console.WriteLine("\nВсе книги:");
+                foreach (var item in books)
+                {
+                    Console.WriteLine(item);
+                }
+
+                var groupedBooks = books.GroupBy(book => book.author);
+                Console.WriteLine("\n\nФактор-множества:");
+                foreach (var item in groupedBooks)
+                {
+                    Console.WriteLine($"\n{item.Key}");
+                    foreach (var book in item)
+                    {
+                        Console.WriteLine($"    {book.name}");
+                    }
+                }
+            },
         })
         { }
     }
+
+    internal class Book
+    {
+        public string name;
+        public string author;
+
+        public Book(string name, string author)
+        {
+            this.name = name;
+            this.author = author;
+        }
+
+        public override string ToString()
+        {
+            return $"{author} - {name}";
+        }
+    }
+
 }
