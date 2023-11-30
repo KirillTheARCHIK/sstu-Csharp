@@ -62,6 +62,7 @@ namespace Практики
                new Discrete1(history),
                new Discrete2(history),
                new Discrete3(history),
+               new Discrete5(history),
             };
         }
     }
