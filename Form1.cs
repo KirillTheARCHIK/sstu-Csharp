@@ -12,8 +12,9 @@ namespace StudentsDB
 {
     public partial class Form1 : Form
     {
+        static AppDBContext db = new AppDBContext();
         public Form1()
-        {
+        { 
             InitializeComponent();
         }
     }

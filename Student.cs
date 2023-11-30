@@ -22,6 +22,7 @@ namespace StudentsDB
         int year; //1-11
         char group; //а-д
 
+        public int Id { get; set; }
         public string Name
         {
             get { return name; }
@@ -59,15 +60,17 @@ namespace StudentsDB
             }
         }
 
-        public Student(string name, int year, char group)
+        public Student(int id, string name, int year, char group)
         {
+            Id = id;
             Name = name;
             Year = year;
             Group = group;
         }
 
-        public Student(string name, char group)
+        public Student(int id, string name, char group)
         {
+            Id = id;
             Name = name;
             Year = 1;
             Group = group;
@@ -76,9 +79,10 @@ namespace StudentsDB
         public Student(string str)
         {
             var splitted = str.Split(new char[] { ';', ',' }, StringSplitOptions.RemoveEmptyEntries);
-            Name = splitted[0];
-            Year = int.Parse(splitted[1]);
-            Group = splitted[2][0];
+            Id = int.Parse(splitted[0]);
+            Name = splitted[1];
+            Year = int.Parse(splitted[2]);
+            Group = splitted[3][0];
         }
 
         public static Student operator ++(Student s)
