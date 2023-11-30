@@ -16,6 +16,5 @@ namespace StudentsDB
         {
             InitializeComponent();
         }
-
     }
 }
