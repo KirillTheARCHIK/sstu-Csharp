@@ -54,23 +54,23 @@ namespace StudentsDB
             {
                 if (value < 'А' || value > 'Д')
                 {
-                    throw new Exception("Буква класса должена быть в пределах [А, Д]");
+                    throw new Exception($"Буква класса должена быть в пределах [А, Д], была введена {value}");
                 }
                 group = value;
             }
         }
 
-        public Student(int id, string name, int year, char group)
+        public Student(string name, int year, char group)
         {
-            Id = id;
+
             Name = name;
             Year = year;
             Group = group;
         }
 
-        public Student(int id, string name, char group)
+        public Student(string name, char group)
         {
-            Id = id;
+
             Name = name;
             Year = 1;
             Group = group;
@@ -78,11 +78,10 @@ namespace StudentsDB
 
         public Student(string str)
         {
-            var splitted = str.Split(new char[] { ';', ',' }, StringSplitOptions.RemoveEmptyEntries);
-            Id = int.Parse(splitted[0]);
-            Name = splitted[1];
-            Year = int.Parse(splitted[2]);
-            Group = splitted[3][0];
+            var splitted = str.Split(new char[] { ';', ',' }, StringSplitOptions.RemoveEmptyEntries).Select((s)=>s.Trim()).ToList();
+            Name = splitted[0];
+            Year = int.Parse(splitted[1]);
+            Group = splitted[2][0];
         }
 
         public static Student operator ++(Student s)
@@ -90,6 +89,15 @@ namespace StudentsDB
             s.Year++;
             return s;
         }
+
+        public static List<Student> MockStudents = new List<Student>()
+        {
+            new Student("Коноплев Кирилл Дмитриевич, 9, В"),
+            new Student("Засорина Анастасия Борисовна, 3, А"),
+            new Student("Обыденнова Татьяна Дмитриевна, 9, А"),
+            new Student("Золотухина Анна Александровна, 4, Д"),
+            new Student("Мурзаев Максим Павлович, 1, Г"),
+        };
 
         public override string ToString()
         {
@@ -125,13 +133,17 @@ namespace StudentsDB
         }
 
         //С помощью метода Array.Sort осуществить сортировку массива учеников: по ФИО, по комбинации (год обучения, название класса). 
-        public static void SortListByName(List<Student> list)
+        public static List<Student> SortListByName(List<Student> list)
         {
-            Array.Sort(list.ToArray(), new StudentsNameComparer());
+            var newList = list.ToArray();
+            Array.Sort(newList, new StudentsNameComparer());
+            return newList.ToList();
         }
-        public static void SortListByYearGroup(List<Student> list)
+        public static List<Student> SortListByYearGroup(List<Student> list)
         {
-            Array.Sort(list.ToArray(), new StudentsYearGroupComparer());
+            var newList = list.ToArray();
+            Array.Sort(newList, new StudentsYearGroupComparer());
+            return newList.ToList();
         }
     }
 

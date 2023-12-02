@@ -16,5 +16,7 @@ namespace StudentsDB
         {
             optionsBuilder.UseSqlite("Data Source=studentsDB.db");
         }
+
+        public static AppDBContext db = new AppDBContext();
     }
 }
