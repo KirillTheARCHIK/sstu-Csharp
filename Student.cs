@@ -15,7 +15,7 @@ namespace StudentsDB
     //a)  С помощью метода Array.Sort осуществить сортировку массива учеников: по ФИО, по комбинации (год обучения, название класса). +
     //b)  Модифицировать функцию демонстрационной программы -  удаление ученика с заданной ФИО из массива, осуществляя в ней сравнение с помощью операции ==. +
 
-    // ** Реализовать всё с помощью WinForms, Entity Fraemwork; применить паттерн проектирования**
+    // ** Реализовать всё с помощью WinForms, Entity Fraemwork **
     internal class Student : IComparable
     {
         string name; //ФИО
@@ -59,13 +59,15 @@ namespace StudentsDB
                 group = value;
             }
         }
+        public Teacher Teacher { get; set; }
 
-        public Student(string name, int year, char group)
+        public Student(string name, int year, char group, Teacher teacher)
         {
 
             Name = name;
             Year = year;
             Group = group;
+            Teacher = teacher;
         }
 
         public Student(string name, char group)

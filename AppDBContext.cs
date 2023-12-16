@@ -10,7 +10,14 @@ namespace StudentsDB
     class AppDBContext : DbContext
     {
         public DbSet<Student> Students => Set<Student>();
-        public AppDBContext() => Database.EnsureCreated();
+        public DbSet<School> Schools => Set<School>();
+        public DbSet<Teacher> Teachers => Set<Teacher>();
+        public DbSet<SchoolType> SchoolTypes => Set<SchoolType>();
+        public AppDBContext()
+        {
+            Database.EnsureDeleted();
+            Database.EnsureCreated();
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
