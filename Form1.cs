@@ -25,21 +25,24 @@ namespace StudentsDB
 
         private void StudentDeleteButton_Click(object sender, EventArgs e)
         {
-            var studentName = NameTextBox.Text;
-            var studentToFind = new Student(studentName, 'А');
-            foreach (var item in AppDBContext.db.Students.ToList())
+            try
             {
-                Console.WriteLine(item);
+                var studentName = NameTextBox.Text;
+                var studentToFind = new Student(studentName, 'А');
+                var findedStudent = AppDBContext.db.Students.ToList().FirstOrDefault(s => s == studentToFind);
+                if (findedStudent == null)
+                {
+                    throw new Exception("Студент с таким ФИО не найден");
+                }
+                AppDBContext.db.Students.Remove(findedStudent);
+                AppDBContext.db.SaveChanges();
+                students = AppDBContext.db.Students.ToList();
+                dataGridView1.DataSource = students;
             }
-            var findedStudent = AppDBContext.db.Students.FirstOrDefault(s => s == studentToFind);
-            if (findedStudent==null)
+            catch (Exception err)
             {
-                MessageBox.Show("Студент с таким ФИО не найден");
+                MessageBox.Show(err.Message);
             }
-            AppDBContext.db.Students.Remove(findedStudent);
-            AppDBContext.db.SaveChanges();
-            students = AppDBContext.db.Students.ToList();
-            dataGridView1.DataSource = students;
         }
 
         private void SortByNameButton_Click(object sender, EventArgs e)

@@ -9,11 +9,11 @@ namespace StudentsDB
     //Описать класс УЧЕНИК(поля: ФИО, ГОД ОБУЧЕНИЯ, НАЗВАНИЯ КЛАССА (БУКВА a-д)). +
     //Операция класса: перевод ученика в следующий класс(++). +
     //Статический метод класса: сортировка массива учеников по паре(год обучения, название класса); +
-    //Функция демонстрационной программы: удаление ученика с заданной ФИО из массива.
+    //Функция демонстрационной программы: удаление ученика с заданной ФИО из массива. +
 
     //В классе УЧЕНИК реализовать интерфейсы IComparable и IComparer и переопределить операции сравнения учеников, причем операцию == как сравнение учеников по ФИО. +
     //a)  С помощью метода Array.Sort осуществить сортировку массива учеников: по ФИО, по комбинации (год обучения, название класса). +
-    //b)  Модифицировать функцию демонстрационной программы -  удаление ученика с заданной ФИО из массива, осуществляя в ней сравнение с помощью операции ==.
+    //b)  Модифицировать функцию демонстрационной программы -  удаление ученика с заданной ФИО из массива, осуществляя в ней сравнение с помощью операции ==. +
 
     // ** Реализовать всё с помощью WinForms, Entity Fraemwork; применить паттерн проектирования**
     internal class Student : IComparable
@@ -78,7 +78,7 @@ namespace StudentsDB
 
         public Student(string str)
         {
-            var splitted = str.Split(new char[] { ';', ',' }, StringSplitOptions.RemoveEmptyEntries).Select((s)=>s.Trim()).ToList();
+            var splitted = str.Split(new char[] { ';', ',' }, StringSplitOptions.RemoveEmptyEntries).Select((s) => s.Trim()).ToList();
             Name = splitted[0];
             Year = int.Parse(splitted[1]);
             Group = splitted[2][0];
@@ -106,15 +106,29 @@ namespace StudentsDB
 
         public override bool Equals(object obj)
         {
-            if (obj is Student)
+            var baseEqual = base.Equals(obj);
+            if (!baseEqual && obj is Student)
             {
+                if (IsNull() || (obj as Student).IsNull())
+                {
+                    return false;
+                }
                 return new StudentsNameComparer().Compare(this, obj as Student) == 0;
             }
-            return base.Equals(obj);
+            return baseEqual;
+        }
+
+        public bool IsNull()
+        {
+            return base.Equals(null);
         }
 
         public static bool operator ==(Student a, Student b)
         {
+            if (a is null)
+            {
+                return b is null;
+            }
             return a.Equals(b);
         }
 
