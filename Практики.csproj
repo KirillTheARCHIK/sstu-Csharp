@@ -83,6 +83,7 @@
     <Compile Include="Programs\Discrete2.cs" />
     <Compile Include="Programs\Discrete3.cs" />
     <Compile Include="Programs\Discrete5.cs" />
+    <Compile Include="Programs\Practice10.cs" />
     <Compile Include="Programs\Practice6.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Programs\Practice8.cs" />

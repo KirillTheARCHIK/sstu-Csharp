@@ -59,6 +59,7 @@ namespace Практики
                new Practice7(history),
                new Practice8(history),
                new Practice9(history),
+               new Practice10(history),
                new Discrete1(history),
                new Discrete2(history),
                new Discrete3(history),
