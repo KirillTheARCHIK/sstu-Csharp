@@ -16,9 +16,9 @@ namespace StudentsDB
         public Form1()
         {
             InitializeComponent();
-            AppDBContext.db.Students.RemoveRange(AppDBContext.db.Students.Where((Student s) => true));
-            AppDBContext.db.Students.AddRange(Student.MockStudents);
-            AppDBContext.db.SaveChanges();
+            //AppDBContext.db.Students.RemoveRange(AppDBContext.db.Students.Where((Student s) => true));
+            //AppDBContext.db.Students.AddRange(Student.MockStudents);
+            //AppDBContext.db.SaveChanges();
             students = AppDBContext.db.Students.ToList();
             dataGridView1.DataSource = students;
         }

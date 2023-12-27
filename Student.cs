@@ -54,7 +54,7 @@ namespace StudentsDB
             {
                 if (value < 'А' || value > 'Д')
                 {
-                    throw new Exception($"Буква класса должена быть в пределах [А, Д], была введена {value}");
+                    throw new Exception($"Буква класса должена быть в пределах [А, Д], была введена: {value}");
                 }
                 group = value;
             }
