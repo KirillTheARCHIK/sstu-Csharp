@@ -24,20 +24,19 @@ namespace Практики
                 source = " " + source;
             }
 
+            var splitted = new List<string>();
             var quotesSplitted = source.Split('"').ToList();
-            var outerQuotesStr = "";
             for (int i = 0; i < quotesSplitted.Count; i++)
             {
                 if (i % 2 == 1)
                 {
-                    arguments.Add(quotesSplitted[i]);
+                    splitted.Add(quotesSplitted[i]);
                 }
                 else
                 {
-                    outerQuotesStr += quotesSplitted[i];
+                    splitted.AddRange(quotesSplitted[i].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
                 }
             }
-            var splitted = outerQuotesStr.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             action = splitted[0];
 
             foreach (var str in splitted.Skip(1))

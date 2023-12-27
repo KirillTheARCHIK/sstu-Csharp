@@ -6,7 +6,7 @@ using System.Text;
 namespace Практики
 {
     internal class Listeners : Dictionary<string, Action<Command, History>> { }
-    internal class SubProgram
+    abstract internal class SubProgram
     {
         string name;
         History history;
@@ -23,9 +23,10 @@ namespace Практики
             var newHistory = new History(history) { this };
             this.history = newHistory;
         }
-
+        protected virtual void OnListen() { }
         public void listen()
         {
+            OnListen();
             while (true)
             {
                 try
