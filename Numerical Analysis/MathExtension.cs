@@ -12,7 +12,7 @@ namespace Numerical_Analysis
 
     public class MyMath
     {
-        public static long Fact(int n)
+        public static double Fact(int n)
         {
             if (n<0)
             {
