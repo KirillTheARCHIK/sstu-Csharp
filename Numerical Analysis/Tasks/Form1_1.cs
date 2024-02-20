@@ -25,14 +25,13 @@ namespace Numerical_Analysis.Tasks
                 Sf1 += (float)1e-6;
             }
             Sf1 = Sf1 + 1;
-            textBoxFloat1.Text = (Math.Abs(2-Sf1)/Sf1).ToString();
+            textBoxFloat1.Text = (Math.Abs(2 - Sf1) / Sf1).ToString();
 
-            float Sf2 = 0;
+            float Sf2 = 1;
             for (int i = 0; i < 1e6; i++)
             {
                 Sf2 += (float)1e-6;
             }
-            Sf2 = Sf2 + 1;
             textBoxFloat2.Text = (Math.Abs(2 - Sf2) / Sf2).ToString();
 
             double Sd1 = 0;
@@ -43,12 +42,11 @@ namespace Numerical_Analysis.Tasks
             Sd1 = Sd1 + 1;
             textBoxDouble1.Text = (Math.Abs(2 - Sd1) / Sd1).ToString();
 
-            double Sd2 = 0;
+            double Sd2 = 1;
             for (int i = 0; i < 1e6; i++)
             {
                 Sd2 += 1e-6;
             }
-            Sd2 = Sd2 + 1;
             textBoxDouble2.Text = (Math.Abs(2 - Sd2) / Sd2).ToString();
         }
     }
