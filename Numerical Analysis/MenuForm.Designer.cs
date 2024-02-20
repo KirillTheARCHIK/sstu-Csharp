@@ -31,6 +31,7 @@ namespace Numerical_Analysis
         {
             this.buttonTask1_1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.buttonTask1_2 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // buttonTask1_1
@@ -52,12 +53,23 @@ namespace Numerical_Analysis
             this.label1.TabIndex = 1;
             this.label1.Text = "Практика 1";
             // 
+            // buttonTask1_2
+            // 
+            this.buttonTask1_2.Location = new System.Drawing.Point(15, 54);
+            this.buttonTask1_2.Name = "buttonTask1_2";
+            this.buttonTask1_2.Size = new System.Drawing.Size(75, 23);
+            this.buttonTask1_2.TabIndex = 0;
+            this.buttonTask1_2.Text = "Задание 2";
+            this.buttonTask1_2.UseVisualStyleBackColor = true;
+            this.buttonTask1_2.Click += new System.EventHandler(this.buttonTask1_2_Click);
+            // 
             // MenuForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.label1);
+            this.Controls.Add(this.buttonTask1_2);
             this.Controls.Add(this.buttonTask1_1);
             this.Name = "MenuForm";
             this.Text = "Меню";
@@ -70,6 +82,7 @@ namespace Numerical_Analysis
 
         private System.Windows.Forms.Button buttonTask1_1;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button buttonTask1_2;
     }
 }
 

@@ -22,5 +22,10 @@ namespace Numerical_Analysis
         {
             new Form1_1().ShowDialog();
         }
+
+        private void buttonTask1_2_Click(object sender, EventArgs e)
+        {
+            new Form1_2().ShowDialog();
+        }
     }
 }

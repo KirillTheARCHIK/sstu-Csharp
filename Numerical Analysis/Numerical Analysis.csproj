@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MathExtension.cs" />
     <Compile Include="MenuForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -59,6 +60,12 @@
     </Compile>
     <Compile Include="Tasks\Form1_1.Designer.cs">
       <DependentUpon>Form1_1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Tasks\Form1_2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tasks\Form1_2.Designer.cs">
+      <DependentUpon>Form1_2.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="MenuForm.resx">
       <DependentUpon>MenuForm.cs</DependentUpon>
@@ -74,6 +81,9 @@
     </Compile>
     <EmbeddedResource Include="Tasks\Form1_1.resx">
       <DependentUpon>Form1_1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tasks\Form1_2.resx">
+      <DependentUpon>Form1_2.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
