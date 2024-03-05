@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +18,19 @@ namespace Numerical_Analysis
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MenuForm());
+            var services = new ServiceCollection();
+            ConfigureServices(services);
+            using (ServiceProvider serviceProvider = services.BuildServiceProvider())
+            {
+                var menuForm = serviceProvider.GetRequiredService<MenuForm>();
+                Application.Run(menuForm);
+            }
+        }
+
+        private static void ConfigureServices(ServiceCollection services)
+        {
+            services.AddSingleton<MenuForm>()
+                    .AddLogging(configure => configure.AddConsole());
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Numerical_Analysis
@@ -34,9 +35,12 @@ namespace Numerical_Analysis
             return variables.OrderBy(c => (int)c).ToHashSet();
         }
 
-        //string variableChars = "[A-Za-z]{1}";
-        string variableChars = "[01]{1}";
-        double ResolveExpression(string expression, Dictionary<char, double> variableValues)
+        string variableChars = "[A-Za-z]{1}";
+        public double ResolveExpression(Dictionary<char, double> variableValues)
+        {
+            return ResolveExpression(input, variableValues);
+        }
+        public double ResolveExpression(string expression, Dictionary<char, double> variableValues)
         {
             double expressionValue;
             foreach (var entry in variableValues)
@@ -49,11 +53,7 @@ namespace Numerical_Analysis
                 {
                     Console.WriteLine(expression);
                 }
-                if (ReplaceBrackets(ref expression))
-                {
-                    continue;
-                }
-                if (ReplaceUnary(ref expression, new string[]{"-"}))
+                if (ReplaceBrackets(ref expression, variableValues))
                 {
                     continue;
                 }
@@ -62,6 +62,10 @@ namespace Numerical_Analysis
                     continue;
                 }
                 if (ReplaceBinary(ref expression, new string[] { "*", "/" }))
+                {
+                    continue;
+                }
+                if (ReplaceUnary(ref expression, new string[] { "-" }))
                 {
                     continue;
                 }
@@ -75,13 +79,13 @@ namespace Numerical_Analysis
             {
                 Console.WriteLine(expression);
             }
-            if ()
+            if (!double.TryParse(expression, out expressionValue))
             {
                 return expressionValue;
             }
             throw new Exception("Выражение составлено некорректно");
         }
-        bool ReplaceBrackets(ref string expression)
+        bool ReplaceBrackets(ref string expression, Dictionary<char, double> variableValues)
         {
             Regex regex = new Regex(@"\((?<inner>[^\(\)]+?)\)");
             var match = regex.Match(expression);
@@ -89,7 +93,7 @@ namespace Numerical_Analysis
             {
                 var inner = match.Groups["inner"].Value.ToString();
                 Console.WriteLine($"Inner {inner}");
-                expression = expression.Replace(match.Value, BoolToChar(ResolveExpression(inner)).ToString());
+                expression = expression.Replace(match.Value, ResolveExpression(inner, variableValues).ToString());
                 return true;
             }
             return false;
@@ -102,12 +106,11 @@ namespace Numerical_Analysis
             {
                 expression = expression.Replace(
                     match.Value,
-                    BoolToChar(
-                        BoolOperation(
-                            StringToBool(match.Groups["valueA"].Value),
+                        ArithmeticOperation(
+                            double.Parse(match.Groups["valueA"].Value),
                             match.Groups["operator"].Value[0]
                         )
-                    ).ToString()
+                    .ToString()
                 );
                 return true;
             }
@@ -121,82 +124,53 @@ namespace Numerical_Analysis
             {
                 expression = expression.Replace(
                     match.Value,
-                    BoolToChar(
-                        BoolOperation(
-                            StringToBool(match.Groups["valueA"].Value),
-                            StringToBool(match.Groups["valueB"].Value),
+                        ArithmeticOperation(
+                            double.Parse(match.Groups["valueA"].Value),
+                            double.Parse(match.Groups["valueB"].Value),
                             match.Groups["operator"].Value[0]
-                        )
                     ).ToString()
                 );
                 return true;
             }
             return false;
         }
-        //Отрицание: ¬!
-        bool BoolOperation(bool a, char operation)
+        double ArithmeticOperation(double a, char operation)
         {
             switch (operation)
             {
-                case '!':
-                case '¬':
-                case '┐':
+                case '-':
                     {
-                        return !a;
+                        return -a;
                     }
                 default:
-                    throw new OSExeption("Несуществующий унарный оператор");
+                    throw new Exception("Несуществующий унарный оператор");
             }
         }
-        //Коньюнкция: ∧˄&
-        //Дизъюнкция: ∨˅Vv
-        //Импликация: → 
-        //Эквивалентность: =≡↔
-        //Исключающее или: ☺⊕
-        //Стрелка Пирса: ↓
-        //Штрих Шеффера: |
-        bool BoolOperation(bool a, bool b, char operation)
+        double ArithmeticOperation(double a, double b, char operation)
         {
             switch (operation)
             {
-                case '∧':
-                case '˄':
-                case '&':
-                    {
-                        return a & b;
-                    }
-                case '∨':
-                case '˅':
-                case 'v':
-                case 'V':
-                    {
-                        return a | b;
-                    }
-                case '→':
-                case '>':
-                    {
-                        return !a | b;
-                    }
-                case '=':
-                case '≡':
-                case '↔':
-                    {
-                        return a == b;
-                    }
-                case '⊕':
-                case '☺':
                 case '+':
                     {
+                        return a + b;
+                    }
+                case '-':
+                    {
+                        return a - b;
+                    }
+                case '*':
+                    {
+                        return a * b;
+                    }
+                case '/':
+                    {
+                        return a / b;
+                    }
 
-                        return a != b;
-                    }
-                case '↓':
+                case '^':
                     {
-                        return !(a | b);
-                    }
-                case '|':
-                    {
-                        return !(a & b);
+
+                        return Math.Pow(a, b);
                     }
                 default:
                     throw new Exception("Несуществующий бинарный оператор");

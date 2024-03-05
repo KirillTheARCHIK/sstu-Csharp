@@ -7,14 +7,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.Extensions.Logging;
 using Numerical_Analysis.Tasks;
 
 namespace Numerical_Analysis
 {
     public partial class MenuForm : Form
     {
-        public MenuForm()
+        ILogger<MenuForm> logger;
+        public MenuForm(ILogger<MenuForm> logger)
         {
+            this.logger = logger;
             InitializeComponent();
         }
 
@@ -26,6 +29,11 @@ namespace Numerical_Analysis
         private void buttonTask1_2_Click(object sender, EventArgs e)
         {
             new Form1_2().ShowDialog();
+        }
+
+        private void buttonMathFunctions_Click(object sender, EventArgs e)
+        {
+            new MathFunctionForm(logger).ShowDialog();
         }
     }
 }
