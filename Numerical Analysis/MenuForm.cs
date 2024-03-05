@@ -18,6 +18,7 @@ namespace Numerical_Analysis
         public MenuForm(ILogger<MenuForm> logger)
         {
             this.logger = logger;
+            Program.logger = logger;
             InitializeComponent();
         }
 

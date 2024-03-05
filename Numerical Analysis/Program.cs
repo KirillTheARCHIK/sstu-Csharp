@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,12 +11,15 @@ namespace Numerical_Analysis
 {
     static class Program
     {
+        public static ILogger<MenuForm> logger;
+        public static JsonSerializer serializer;
         /// <summary>
         /// Главная точка входа для приложения.
         /// </summary>
         [STAThread]
         static void Main()
         {
+            serializer = new JsonSerializer();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             var services = new ServiceCollection();

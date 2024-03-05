@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,9 +12,9 @@ namespace Numerical_Analysis
     class MathFunction
     {
         public bool debug = false;
-        string input;
+        public string input;
 
-        HashSet<char> variables;
+        public HashSet<char> variables;
 
         public MathFunction(string input, bool debug)
         {
@@ -20,6 +22,10 @@ namespace Numerical_Analysis
             this.input = input;
 
             variables = getVariables(input);
+            if (debug)
+            {
+                Program.logger.Log(LogLevel.Information, "variables: " + JsonConvert.SerializeObject(variables));
+            }
         }
 
         static HashSet<char> getVariables(string input)
@@ -27,7 +33,7 @@ namespace Numerical_Analysis
             var variables = new HashSet<char>();
             foreach (char c in input)
             {
-                if (c >= 'A' & c <= 'Z')
+                if (c >= 'A' & c <= 'Z' || c >= 'a' & c <= 'z')
                 {
                     variables.Add(c);
                 }
@@ -35,12 +41,12 @@ namespace Numerical_Analysis
             return variables.OrderBy(c => (int)c).ToHashSet();
         }
 
-        string variableChars = "[A-Za-z]{1}";
-        public double ResolveExpression(Dictionary<char, double> variableValues)
+        string numberChars = "\\d+";
+        public double ResolveExpression(Dictionary<char, double?> variableValues)
         {
             return ResolveExpression(input, variableValues);
         }
-        public double ResolveExpression(string expression, Dictionary<char, double> variableValues)
+        public double ResolveExpression(string expression, Dictionary<char, double?> variableValues)
         {
             double expressionValue;
             foreach (var entry in variableValues)
@@ -51,17 +57,17 @@ namespace Numerical_Analysis
             {
                 if (debug)
                 {
-                    Console.WriteLine(expression);
+                    Program.logger.Log(LogLevel.Information, expression);
                 }
                 if (ReplaceBrackets(ref expression, variableValues))
                 {
                     continue;
                 }
-                if (ReplaceBinary(ref expression, new string[] { "^" }))
+                if (ReplaceBinary(ref expression, new string[] { "\\^" }))
                 {
                     continue;
                 }
-                if (ReplaceBinary(ref expression, new string[] { "*", "/" }))
+                if (ReplaceBinary(ref expression, new string[] { "\\*", "/" }))
                 {
                     continue;
                 }
@@ -69,30 +75,30 @@ namespace Numerical_Analysis
                 {
                     continue;
                 }
-                if (ReplaceBinary(ref expression, new string[] { "+", "-" }))
+                if (ReplaceBinary(ref expression, new string[] { "\\+", "-" }))
                 {
                     continue;
                 }
-                break;
+                throw new Exception("Выражение составлено некорректно");
             }
             if (debug)
             {
-                Console.WriteLine(expression);
+                Program.logger.Log(LogLevel.Information, expression);
             }
-            if (!double.TryParse(expression, out expressionValue))
+            if (double.TryParse(expression, out expressionValue))
             {
                 return expressionValue;
             }
             throw new Exception("Выражение составлено некорректно");
         }
-        bool ReplaceBrackets(ref string expression, Dictionary<char, double> variableValues)
+        bool ReplaceBrackets(ref string expression, Dictionary<char, double?> variableValues)
         {
             Regex regex = new Regex(@"\((?<inner>[^\(\)]+?)\)");
             var match = regex.Match(expression);
             if (match.Success)
             {
                 var inner = match.Groups["inner"].Value.ToString();
-                Console.WriteLine($"Inner {inner}");
+               Program.logger.Log(LogLevel.Information, $"Inner {inner}");
                 expression = expression.Replace(match.Value, ResolveExpression(inner, variableValues).ToString());
                 return true;
             }
@@ -100,7 +106,7 @@ namespace Numerical_Analysis
         }
         bool ReplaceUnary(ref string expression, string[] operators)
         {
-            Regex regex = new Regex($"(?<operator>[{String.Join("", operators)}])(?<valueA>{variableChars})");
+            Regex regex = new Regex($"(?<operator>[{string.Join("", operators)}])(?<valueA>{numberChars})");
             var match = regex.Match(expression);
             if (match.Success)
             {
@@ -118,7 +124,7 @@ namespace Numerical_Analysis
         }
         bool ReplaceBinary(ref string expression, string[] operators)
         {
-            Regex regex = new Regex($"(?<valueA>{variableChars})(?<operator>[{String.Join("", operators)}])(?<valueB>{variableChars})");
+            Regex regex = new Regex($"(?<valueA>{numberChars})(?<operator>[{String.Join("", operators)}])(?<valueB>{numberChars})");
             var match = regex.Match(expression);
             if (match.Success)
             {
