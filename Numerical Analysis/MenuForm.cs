@@ -34,7 +34,7 @@ namespace Numerical_Analysis
 
         private void buttonMathFunctions_Click(object sender, EventArgs e)
         {
-            new MathFunctionForm(logger).ShowDialog();
+            new MathFunctionForm().ShowDialog();
         }
     }
 }

@@ -13,12 +13,11 @@ namespace Numerical_Analysis
 {
     public partial class MathFunctionForm : Form
     {
-        ILogger logger;
         MathFunction mathFunction;
         Dictionary<char, double?> variableValues;
-        public MathFunctionForm(ILogger logger)
+        char lastSelectedVariableTextBox;
+        public MathFunctionForm()
         {
-            this.logger = logger;
             InitializeComponent();
             variableValues = new Dictionary<char, double?>();
         }
@@ -29,12 +28,14 @@ namespace Numerical_Analysis
             RefreshVariables();
             ErrorLabel.Text = "";
             labelFx.Text = "";
+            labelFpx.Text = "";
             try
             {
-                if (variableValues.All(entry=>entry.Value!=null))
+                if (variableValues.All(entry => entry.Value != null))
                 {
                     var fx = mathFunction.ResolveExpression(variableValues);
                     labelFx.Text = $"Значение функции в точке = {fx}";
+                    labelFpx.Text = mathFunction.GetDerivative(variableValues, variableValues.First().Key).ToString();
                 }
             }
             catch (Exception e)
@@ -46,7 +47,7 @@ namespace Numerical_Analysis
         void RefreshVariables()
         {
             variablesFlowLayoutPanel.Controls.Clear();
-            variableValues = variableValues.Where(pair=>mathFunction.variables.Contains(pair.Value))
+            variableValues = variableValues.Where(pair => mathFunction.variables.Contains(pair.Key)).ToDictionary(i => i.Key, i => i.Value);
             foreach (var variable in mathFunction.variables)
             {
                 FlowLayoutPanel row = new FlowLayoutPanel();
@@ -63,22 +64,30 @@ namespace Numerical_Analysis
                 {
                     textBox.Text = variableValues[variable].ToString();
                 }
-                textBox.TextChanged += delegate (object sender, EventArgs e) {
+                textBox.TextChanged += delegate (object sender, EventArgs e)
+                {
                     double newValue;
-                    if (double.TryParse((sender as TextBox).Text, out newValue))
+                    if (double.TryParse((sender as TextBox).Text, out newValue) && (!variableValues.ContainsKey(variable) || newValue != variableValues[variable]))
                     {
                         variableValues[variable] = newValue;
+                        lastSelectedVariableTextBox = variable;
                         _Refresh();
                     }
                 };
                 row.Controls.Add(label);
                 row.Controls.Add(textBox);
                 variablesFlowLayoutPanel.Controls.Add(row);
+                if (variable == lastSelectedVariableTextBox)
+                {
+                    textBox.Focus();
+                    textBox.Select(textBox.Text.Length, 0);
+                }
             }
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
+            lastSelectedVariableTextBox = ' ';
             _Refresh();
         }
     }

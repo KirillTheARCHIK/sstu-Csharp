@@ -36,6 +36,7 @@ namespace Numerical_Analysis
             this.variablesFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.labelFx = new System.Windows.Forms.Label();
+            this.labelFpx = new System.Windows.Forms.Label();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -78,10 +79,11 @@ namespace Numerical_Analysis
             // 
             // variablesFlowLayoutPanel
             // 
+            this.variablesFlowLayoutPanel.BackColor = System.Drawing.SystemColors.ControlLight;
             this.variablesFlowLayoutPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.variablesFlowLayoutPanel.Location = new System.Drawing.Point(3, 74);
             this.variablesFlowLayoutPanel.Name = "variablesFlowLayoutPanel";
-            this.variablesFlowLayoutPanel.Size = new System.Drawing.Size(239, 192);
+            this.variablesFlowLayoutPanel.Size = new System.Drawing.Size(239, 80);
             this.variablesFlowLayoutPanel.TabIndex = 4;
             // 
             // flowLayoutPanel1
@@ -92,6 +94,7 @@ namespace Numerical_Analysis
             this.flowLayoutPanel1.Controls.Add(this.label2);
             this.flowLayoutPanel1.Controls.Add(this.variablesFlowLayoutPanel);
             this.flowLayoutPanel1.Controls.Add(this.labelFx);
+            this.flowLayoutPanel1.Controls.Add(this.labelFpx);
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(12, 12);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -101,11 +104,20 @@ namespace Numerical_Analysis
             // labelFx
             // 
             this.labelFx.AutoSize = true;
-            this.labelFx.Location = new System.Drawing.Point(3, 269);
+            this.labelFx.Location = new System.Drawing.Point(3, 157);
             this.labelFx.Name = "labelFx";
             this.labelFx.Size = new System.Drawing.Size(55, 13);
             this.labelFx.TabIndex = 5;
             this.labelFx.Text = "                ";
+            // 
+            // labelFpx
+            // 
+            this.labelFpx.AutoSize = true;
+            this.labelFpx.Location = new System.Drawing.Point(3, 170);
+            this.labelFpx.Name = "labelFpx";
+            this.labelFpx.Size = new System.Drawing.Size(55, 13);
+            this.labelFpx.TabIndex = 5;
+            this.labelFpx.Text = "                ";
             // 
             // MathFunctionForm
             // 
@@ -130,5 +142,6 @@ namespace Numerical_Analysis
         private System.Windows.Forms.FlowLayoutPanel variablesFlowLayoutPanel;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Label labelFx;
+        private System.Windows.Forms.Label labelFpx;
     }
 }

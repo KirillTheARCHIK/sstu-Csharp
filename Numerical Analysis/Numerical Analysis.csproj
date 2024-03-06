@@ -149,6 +149,7 @@
     <Compile Include="Tasks\Form1_2.Designer.cs">
       <DependentUpon>Form1_2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utils\Extensions.cs" />
     <EmbeddedResource Include="MathFunctionForm.resx">
       <DependentUpon>MathFunctionForm.cs</DependentUpon>
     </EmbeddedResource>

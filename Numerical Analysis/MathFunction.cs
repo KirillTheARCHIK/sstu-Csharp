@@ -91,6 +91,22 @@ namespace Numerical_Analysis
             }
             throw new Exception("Выражение составлено некорректно");
         }
+        public double GetDerivative(Dictionary<char, double?> variableValues, char axis)
+        {
+            var delta = 1e-8;
+            return (
+                ResolveExpression(variableValues.Select(
+                    pair => pair.Key != axis ?
+                        pair :
+                        new KeyValuePair<char, double?>(pair.Key, pair.Value + delta)).ToDictionary()
+                ) -
+                ResolveExpression(variableValues.Select(
+                    pair => pair.Key != axis ?
+                        pair :
+                        new KeyValuePair<char, double?>(pair.Key, pair.Value - delta)).ToDictionary()
+                )
+             ) / (2 * delta);
+        }
         bool ReplaceBrackets(ref string expression, Dictionary<char, double?> variableValues)
         {
             Regex regex = new Regex(@"\((?<inner>[^\(\)]+?)\)");
@@ -98,7 +114,7 @@ namespace Numerical_Analysis
             if (match.Success)
             {
                 var inner = match.Groups["inner"].Value.ToString();
-               Program.logger.Log(LogLevel.Information, $"Inner {inner}");
+                Program.logger.Log(LogLevel.Information, $"Inner {inner}");
                 expression = expression.Replace(match.Value, ResolveExpression(inner, variableValues).ToString());
                 return true;
             }
