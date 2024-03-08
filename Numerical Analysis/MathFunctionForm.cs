@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,22 +21,36 @@ namespace Numerical_Analysis
         {
             InitializeComponent();
             variableValues = new Dictionary<char, double?>();
+            _Refresh();
         }
 
         void _Refresh()
         {
-            mathFunction = new MathFunction(textBox1.Text, true);
+            Program.logger.Log(LogLevel.Information, "Refresh()");
+            mathFunction = new MathFunction(textBoxF.Text, true);
             RefreshVariables();
             ErrorLabel.Text = "";
             labelFx.Text = "";
             labelFpx.Text = "";
+            if (mathFunction.variables.Count <= 1)
+            {
+                if (mathFunction.variables.Count >= 1)
+                {
+                    textBoxFpVariable.Text = mathFunction.variables.ElementAt(0).ToString();
+                }
+                textBoxFpVariable.Enabled = false;
+            }
+            else
+            {
+                textBoxFpVariable.Enabled = true;
+            }
             try
             {
                 if (variableValues.All(entry => entry.Value != null))
                 {
                     var fx = mathFunction.ResolveExpression(variableValues);
-                    labelFx.Text = $"Значение функции в точке = {fx}";
-                    labelFpx.Text = mathFunction.GetDerivative(variableValues, variableValues.First().Key).ToString();
+                    labelFx.Text = $"Значение функции в точке = {Math.Round(fx, 3)}";
+                    labelFpx.Text = $"Значение производной в точке = {Math.Round(mathFunction.GetDerivative(variableValues, textBoxFpVariable.Text[0]), 3)}";
                 }
             }
             catch (Exception e)
@@ -85,8 +100,18 @@ namespace Numerical_Analysis
             }
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private void textBoxF_TextChanged(object sender, EventArgs e)
         {
+            lastSelectedVariableTextBox = ' ';
+            _Refresh();
+        }
+
+        private void textBoxFpVariable_TextChanged(object sender, EventArgs e)
+        {
+            if (textBoxFpVariable.Text.Length > 1)
+            {
+                textBoxFpVariable.Text = textBoxFpVariable.Text.Substring(0, 1);
+            }
             lastSelectedVariableTextBox = ' ';
             _Refresh();
         }

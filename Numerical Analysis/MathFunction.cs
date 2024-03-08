@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -31,17 +32,23 @@ namespace Numerical_Analysis
         static HashSet<char> getVariables(string input)
         {
             var variables = new HashSet<char>();
-            foreach (char c in input)
+
+            Regex regex = new Regex(@"(?<variable>[A-Za-z]+)");
+            var matches = regex.Matches(input);
+            foreach (Match match in matches)
             {
-                if (c >= 'A' & c <= 'Z' || c >= 'a' & c <= 'z')
+                var variable = match.Groups["variable"].Value.ToString();
+                if (variable.Length == 1)
                 {
-                    variables.Add(c);
+                    variables.Add(variable[0]);
                 }
             }
+
             return variables.OrderBy(c => (int)c).ToHashSet();
         }
 
-        string numberChars = "\\d+";
+        string numberChars = "-?(\\d+[\\.\\,])?\\d+";
+        string[] functions = new string[] { "sin", "cos" };
         public double ResolveExpression(Dictionary<char, double?> variableValues)
         {
             return ResolveExpression(input, variableValues);
@@ -63,15 +70,15 @@ namespace Numerical_Analysis
                 {
                     continue;
                 }
+                if (ReplaceUnary(ref expression, functions))
+                {
+                    continue;
+                }
                 if (ReplaceBinary(ref expression, new string[] { "\\^" }))
                 {
                     continue;
                 }
                 if (ReplaceBinary(ref expression, new string[] { "\\*", "/" }))
-                {
-                    continue;
-                }
-                if (ReplaceUnary(ref expression, new string[] { "-" }))
                 {
                     continue;
                 }
@@ -122,7 +129,7 @@ namespace Numerical_Analysis
         }
         bool ReplaceUnary(ref string expression, string[] operators)
         {
-            Regex regex = new Regex($"(?<operator>[{string.Join("", operators)}])(?<valueA>{numberChars})");
+            Regex regex = new Regex($"(?<operator>({string.Join("|", operators)}))(?<valueA>{numberChars})");
             var match = regex.Match(expression);
             if (match.Success)
             {
@@ -130,7 +137,7 @@ namespace Numerical_Analysis
                     match.Value,
                         ArithmeticOperation(
                             double.Parse(match.Groups["valueA"].Value),
-                            match.Groups["operator"].Value[0]
+                            match.Groups["operator"].Value
                         )
                     .ToString()
                 );
@@ -149,47 +156,51 @@ namespace Numerical_Analysis
                         ArithmeticOperation(
                             double.Parse(match.Groups["valueA"].Value),
                             double.Parse(match.Groups["valueB"].Value),
-                            match.Groups["operator"].Value[0]
+                            match.Groups["operator"].Value
                     ).ToString()
                 );
                 return true;
             }
             return false;
         }
-        double ArithmeticOperation(double a, char operation)
+        double ArithmeticOperation(double a, string operation)
         {
             switch (operation)
             {
-                case '-':
+                case "sin":
                     {
-                        return -a;
+                        return Math.Sin(a);
+                    }
+                case "cos":
+                    {
+                        return Math.Cos(a);
                     }
                 default:
                     throw new Exception("Несуществующий унарный оператор");
             }
         }
-        double ArithmeticOperation(double a, double b, char operation)
+        double ArithmeticOperation(double a, double b, string operation)
         {
             switch (operation)
             {
-                case '+':
+                case "+":
                     {
                         return a + b;
                     }
-                case '-':
+                case "-":
                     {
                         return a - b;
                     }
-                case '*':
+                case "*":
                     {
                         return a * b;
                     }
-                case '/':
+                case "/":
                     {
                         return a / b;
                     }
 
-                case '^':
+                case "^":
                     {
 
                         return Math.Pow(a, b);
