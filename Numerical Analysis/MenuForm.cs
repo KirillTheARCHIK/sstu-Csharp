@@ -36,5 +36,10 @@ namespace Numerical_Analysis
         {
             new MathFunctionForm().ShowDialog();
         }
+
+        private void buttonTask4_Click(object sender, EventArgs e)
+        {
+            new FormMonteCarlo().ShowDialog();
+        }
     }
 }

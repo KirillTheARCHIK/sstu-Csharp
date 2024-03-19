@@ -33,6 +33,8 @@ namespace Numerical_Analysis
             this.label1 = new System.Windows.Forms.Label();
             this.buttonTask1_2 = new System.Windows.Forms.Button();
             this.buttonMathFunctions = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.buttonTask4 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // buttonTask1_1
@@ -74,12 +76,33 @@ namespace Numerical_Analysis
             this.buttonMathFunctions.UseVisualStyleBackColor = true;
             this.buttonMathFunctions.Click += new System.EventHandler(this.buttonMathFunctions_Click);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(12, 106);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(65, 13);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Практика 4";
+            // 
+            // buttonTask4
+            // 
+            this.buttonTask4.Location = new System.Drawing.Point(15, 122);
+            this.buttonTask4.Name = "buttonTask4";
+            this.buttonTask4.Size = new System.Drawing.Size(75, 23);
+            this.buttonTask4.TabIndex = 3;
+            this.buttonTask4.Text = "Монте-Карло";
+            this.buttonTask4.UseVisualStyleBackColor = true;
+            this.buttonTask4.Click += new System.EventHandler(this.buttonTask4_Click);
+            // 
             // MenuForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.buttonTask4);
             this.Controls.Add(this.buttonMathFunctions);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.buttonTask1_2);
             this.Controls.Add(this.buttonTask1_1);
@@ -96,6 +119,8 @@ namespace Numerical_Analysis
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button buttonTask1_2;
         private System.Windows.Forms.Button buttonMathFunctions;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button buttonTask4;
     }
 }
 

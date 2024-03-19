@@ -149,6 +149,12 @@
     <Compile Include="Tasks\Form1_2.Designer.cs">
       <DependentUpon>Form1_2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Tasks\FormMonteCarlo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tasks\FormMonteCarlo.Designer.cs">
+      <DependentUpon>FormMonteCarlo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utils\Extensions.cs" />
     <EmbeddedResource Include="MathFunctionForm.resx">
       <DependentUpon>MathFunctionForm.cs</DependentUpon>
@@ -170,6 +176,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Tasks\Form1_2.resx">
       <DependentUpon>Form1_2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tasks\FormMonteCarlo.resx">
+      <DependentUpon>FormMonteCarlo.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
